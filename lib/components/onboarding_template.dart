@@ -24,7 +24,6 @@ class OnboardingTemplate extends StatelessWidget {
         children: [
           Image.asset(
             onBoardingImage,
-            filterQuality: FilterQuality.low,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 25.w),

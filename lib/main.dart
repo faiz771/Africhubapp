@@ -1,7 +1,14 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:afriqmarkethub/onboarding_screen.dart';
 import 'package:afriqmarkethub/splash_screen.dart';
+import 'package:afriqmarkethub/utils/appcolor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 int onboardingStatus = 0;
@@ -21,7 +28,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: OnboardingScreen(),
     );
   }
 }
@@ -34,20 +41,30 @@ class WebViewExample extends StatefulWidget {
 }
 
 class _WebViewExampleState extends State<WebViewExample> {
+  void _onRefresh() async {
+    // Call the refresh function here
+    // For example:
+    controller.reload();
+    // Call _refreshController.refreshCompleted() when refresh is done
+    _refreshController.refreshCompleted();
+  }
+
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   final controller = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted)
-    ..loadRequest(Uri.parse('https://afriqmarket.azsolutionspk.com'));
+    ..loadRequest(Uri.parse('https://afriqmarket.azsolutionspk.com'))
+    ..enableZoom(false);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: WillPopScope(
         onWillPop: () async {
-          // Check if web view can go back
-          // final controller = WebViewFlutterPlugin.platformViewsRegistry.cast<WebViewControllerRegistry>()?.controller;
-          // if (controller != null && await controller.canGoBack()) {
-          //   await controller.goBack();
-          //   return false; // Prevent default back button behavior
-          // }
+          if (controller != null && await controller!.canGoBack()) {
+            await controller!.goBack();
+            return false; // Prevent default back button behavior
+          }
           return false; // Allow default back button behavior (exit app)
         },
         child: Scaffold(
@@ -56,7 +73,9 @@ class _WebViewExampleState extends State<WebViewExample> {
             //   centerTitle: true,
             //   title: const Text('AfriqMarketHub'),
             // ),
-            body: WebViewWidget(controller: controller)),
+            body: WebViewWidget(
+          controller: controller,
+        )),
       ),
     );
   }

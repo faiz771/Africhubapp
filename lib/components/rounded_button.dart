@@ -20,7 +20,7 @@ class RoundedButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding: EdgeInsets.symmetric(vertical: 10.h),
         decoration: BoxDecoration(
           color: Color, // Button background color
           borderRadius: BorderRadius.circular(20.0), // Rounded corners
