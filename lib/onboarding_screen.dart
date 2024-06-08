@@ -76,13 +76,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.only(bottom: 10),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     SizedBox(
-                      height: 10.h,
+                      height: 10,
                     ),
                     SmoothPageIndicator(
                       effect: const ExpandingDotsEffect(
@@ -91,7 +91,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       controller: _controller,
                       count: 3,
                     ),
-                    SizedBox(height: 10.h),
+                    SizedBox(height: 10),
                     SizedBox(
                       height: 40,
                       width: 80,

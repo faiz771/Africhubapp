@@ -24,35 +24,37 @@ class OnboardingTemplate extends StatelessWidget {
         children: [
           Image.asset(
             onBoardingImage,
+            scale: 1,
+            fit: BoxFit.cover,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.w),
+            padding: EdgeInsets.symmetric(horizontal: 25),
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 20.h, bottom: 10.h),
+                  padding: EdgeInsets.only(top: 20, bottom: 10),
                   child: Text(
                     heading,
                     style: TextStyle(
-                      fontSize: 18.sp,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 Text(
                   decsription,
-                  style: TextStyle(
-                      fontSize: 14.sp,
-                      fontFamily: 'inter',
-                      color: const Color.fromRGBO(107, 114, 128, 1)),
+                  style: TextStyle(fontSize: 14, color: Colors.black54),
                   textAlign: TextAlign.center,
                 ),
                 Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20.h),
-                    child: RoundedButton(
-                        text: buttonTitle,
-                        onPressed: onPressed,
-                        Color: Colors.black)),
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: SizedBox(
+                      height: 50,
+                      child: RoundedButton(
+                          text: buttonTitle,
+                          onPressed: onPressed,
+                          Color: Colors.black),
+                    )),
               ],
             ),
           )

@@ -20,7 +20,7 @@ class RoundedButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 10.h),
+        padding: EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
           color: Color, // Button background color
           borderRadius: BorderRadius.circular(20.0), // Rounded corners
@@ -30,8 +30,7 @@ class RoundedButton extends StatelessWidget {
             text,
             style: TextStyle(
                 color: Colors.white, // Text color
-                fontSize: 16.sp,
-                fontFamily: 'Inter',
+                fontSize: 16,
                 fontWeight: FontWeight.bold),
           ),
         ),
