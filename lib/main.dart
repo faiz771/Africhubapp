@@ -1,18 +1,10 @@
-import 'dart:async';
-import 'dart:math';
-
-import 'package:afriqmarkethub/onboarding_screen.dart';
 import 'package:afriqmarkethub/splash_screen.dart';
 import 'package:afriqmarkethub/utils/appcolor.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 int onboardingStatus = 0;
 void main() async {
@@ -69,11 +61,13 @@ class _WebViewExampleState extends State<WebViewExample> {
       onRefresh: () async {
         if (defaultTargetPlatform == TargetPlatform.android) {
           webViewController?.reload();
-          pullToRefreshController!.setBackgroundColor(Appcolors.bluecolor);
+          pullToRefreshController!.setColor(Appcolors.bluecolor);
+          pullToRefreshController!.setBackgroundColor(Colors.black);
         } else if (defaultTargetPlatform == TargetPlatform.iOS) {
           webViewController?.loadUrl(
               urlRequest: URLRequest(url: await webViewController?.getUrl()));
           pullToRefreshController!.setBackgroundColor(Appcolors.bluecolor);
+          pullToRefreshController!.setColor(Colors.black);
         }
       },
     );
