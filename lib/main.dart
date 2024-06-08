@@ -58,28 +58,25 @@ class _WebViewExampleState extends State<WebViewExample> {
   // InAppWebViewSettings settings =
   //     InAppWebViewSettings(isInspectable: kDebugMode);
   PullToRefreshController? pullToRefreshController;
-  // PullToRefreshSettings pullToRefreshSettings = PullToRefreshSettings(
-  //   color: Colors.blue,
-  // );
+
   bool pullToRefreshEnabled = true;
 
   @override
   void initState() {
     super.initState();
 
-    pullToRefreshController = kIsWeb
-        ? null
-        : PullToRefreshController(
-            onRefresh: () async {
-              if (defaultTargetPlatform == TargetPlatform.android) {
-                webViewController?.reload();
-              } else if (defaultTargetPlatform == TargetPlatform.iOS) {
-                webViewController?.loadUrl(
-                    urlRequest:
-                        URLRequest(url: await webViewController?.getUrl()));
-              }
-            },
-          );
+    pullToRefreshController = PullToRefreshController(
+      onRefresh: () async {
+        if (defaultTargetPlatform == TargetPlatform.android) {
+          webViewController?.reload();
+          pullToRefreshController!.setBackgroundColor(Appcolors.bluecolor);
+        } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+          webViewController?.loadUrl(
+              urlRequest: URLRequest(url: await webViewController?.getUrl()));
+          pullToRefreshController!.setBackgroundColor(Appcolors.bluecolor);
+        }
+      },
+    );
   }
 
   void showNoConnectionDialog(BuildContext context) {
