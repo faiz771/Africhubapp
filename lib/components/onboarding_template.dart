@@ -1,7 +1,7 @@
 import 'package:afriqmarkethub/components/rounded_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// ignore: must_be_immutable
 class OnboardingTemplate extends StatelessWidget {
   OnboardingTemplate(
       {super.key,
@@ -28,14 +28,14 @@ class OnboardingTemplate extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25),
+            padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 20, bottom: 10),
+                  padding: const EdgeInsets.only(top: 20, bottom: 10),
                   child: Text(
                     heading,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -43,11 +43,11 @@ class OnboardingTemplate extends StatelessWidget {
                 ),
                 Text(
                   decsription,
-                  style: TextStyle(fontSize: 14, color: Colors.black54),
+                  style: const TextStyle(fontSize: 14, color: Colors.black54),
                   textAlign: TextAlign.center,
                 ),
                 Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
+                    padding: const EdgeInsets.symmetric(vertical: 20),
                     child: SizedBox(
                       height: 50,
                       child: RoundedButton(

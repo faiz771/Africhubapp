@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
 
 class Appcolors {
-  static Color bluecolor = Color.fromRGBO(0, 204, 255, 1);
+  static Color bluecolor = const Color.fromRGBO(0, 204, 255, 1);
 }

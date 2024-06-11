@@ -3,7 +3,6 @@ import 'package:afriqmarkethub/components/onboarding_template.dart';
 import 'package:afriqmarkethub/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final _controller = PageController();
 
@@ -22,7 +21,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       onboardingStatus = 1;
     });
     Navigator.push(
-        context, MaterialPageRoute(builder: ((context) => WebViewExample())));
+        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(builder: ((context) => const WebViewExample())));
   }
 
   @override
@@ -76,12 +77,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.only(bottom: 10),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     SmoothPageIndicator(
@@ -91,7 +92,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       controller: _controller,
                       count: 3,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     SizedBox(
                       height: 40,
                       width: 80,
@@ -100,16 +101,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         onTap: () {
                           _incrementOnboardingStatus();
                         },
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               'Skip',
                             ),
-                            const SizedBox(
+                            SizedBox(
                                 width:
                                     8), // Adjust spacing between label and icon
-                            const Icon(
+                            Icon(
                               Icons.arrow_forward,
                               color: Colors.black,
                             )

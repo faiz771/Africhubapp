@@ -26,10 +26,13 @@ class _SplashScreenState extends State<SplashScreen>
     });
     if (onboardingStatus == 1) {
       Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => WebViewExample())));
+          // ignore: use_build_context_synchronously
+          context,
+          MaterialPageRoute(builder: ((context) => const WebViewExample())));
     } else if (onboardingStatus == 0) {
+      // ignore: use_build_context_synchronously
       Navigator.push(context,
-          MaterialPageRoute(builder: ((context) => OnboardingScreen())));
+          MaterialPageRoute(builder: ((context) => const OnboardingScreen())));
     }
   }
 

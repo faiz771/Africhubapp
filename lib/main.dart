@@ -14,7 +14,7 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
   // rest of your app code
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -24,14 +24,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return MaterialApp(
-      title: 'AfricMarketHub',
+      title: 'AfriqMarketHub',
       theme: ThemeData(
         fontFamily: 'Inter',
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
@@ -47,8 +47,6 @@ class _WebViewExampleState extends State<WebViewExample> {
   final GlobalKey webViewKey = GlobalKey();
 
   InAppWebViewController? webViewController;
-  // InAppWebViewSettings settings =
-  //     InAppWebViewSettings(isInspectable: kDebugMode);
   PullToRefreshController? pullToRefreshController;
 
   bool pullToRefreshEnabled = true;
@@ -83,15 +81,15 @@ class _WebViewExampleState extends State<WebViewExample> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
-          title: Text(
-            'No Internet Connection',
+          title: const Text(
+            'Something went wrong',
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
           ),
-          content: Text(
+          content: const Text(
             'Please check your internet connection and try again.',
             style: TextStyle(
               color: Colors.white70,
@@ -111,8 +109,8 @@ class _WebViewExampleState extends State<WebViewExample> {
                 webViewController!.reload();
                 Navigator.of(context).pop(); // Close the dialog and retry
               },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
+              child: const Padding(
+                padding: EdgeInsets.symmetric(
                   horizontal: 10,
                 ),
                 child: Text(
@@ -132,6 +130,7 @@ class _WebViewExampleState extends State<WebViewExample> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      // ignore: deprecated_member_use
       child: WillPopScope(
           onWillPop: () async {
             if (webViewController != null &&
@@ -144,29 +143,42 @@ class _WebViewExampleState extends State<WebViewExample> {
           child: Scaffold(
               body: Column(children: <Widget>[
             Expanded(
-                child: InAppWebView(
-              key: webViewKey,
-              initialUrlRequest: URLRequest(
-                  url: Uri.parse("https://afriqmarket.azsolutionspk.com")),
-              pullToRefreshController: pullToRefreshController,
-              onWebViewCreated: (InAppWebViewController controller) {
-                webViewController = controller;
-              },
-              onLoadStop: (controller, url) {
-                pullToRefreshController?.endRefreshing();
-              },
-              onProgressChanged: (controller, progress) {
-                if (progress == 100) {
+              child: InAppWebView(
+                initialOptions: InAppWebViewGroupOptions(
+                    crossPlatform: InAppWebViewOptions(
+                  transparentBackground: true,
+                  horizontalScrollBarEnabled: false,
+                  verticalScrollBarEnabled: false,
+                  userAgent: 'random',
+                  javaScriptEnabled: true,
+                  useShouldOverrideUrlLoading: true,
+                  useOnLoadResource: true,
+                  cacheEnabled: true,
+                )),
+                key: webViewKey,
+                initialUrlRequest: URLRequest(
+                  url: Uri.parse("https://afriqmarket.azsolutionspk.com"),
+                ),
+                pullToRefreshController: pullToRefreshController,
+                onWebViewCreated: (InAppWebViewController controller) async {
+                  webViewController = controller;
+                },
+                onLoadStop: (controller, url) {
                   pullToRefreshController?.endRefreshing();
-                }
-              },
-              onLoadError: (controller, url, code, message) {
-                showNoConnectionDialog(context);
-              },
-              onLoadHttpError: (controller, url, statusCode, description) {
-                showNoConnectionDialog(context);
-              },
-            )),
+                },
+                onProgressChanged: (controller, progress) {
+                  if (progress == 100) {
+                    pullToRefreshController?.endRefreshing();
+                  }
+                },
+                onLoadError: (controller, url, code, message) {
+                  showNoConnectionDialog(context);
+                },
+                onLoadHttpError: (controller, url, statusCode, description) {
+                  showNoConnectionDialog(context);
+                },
+              ),
+            ),
           ]))),
     );
   }
