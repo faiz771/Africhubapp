@@ -64,7 +64,7 @@ class _WebViewExampleState extends State<WebViewExample> {
         } else if (defaultTargetPlatform == TargetPlatform.iOS) {
           webViewController?.loadUrl(
               urlRequest: URLRequest(url: await webViewController?.getUrl()));
-          pullToRefreshController!.setBackgroundColor(Appcolors.bluecolor);
+          pullToRefreshController!.setBackgroundColor(Colors.white);
           pullToRefreshController!.setColor(Colors.black);
         }
       },
@@ -149,7 +149,8 @@ class _WebViewExampleState extends State<WebViewExample> {
                   transparentBackground: true,
                   horizontalScrollBarEnabled: false,
                   verticalScrollBarEnabled: false,
-                  userAgent: 'random',
+                  userAgent:
+                      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15',
                   javaScriptEnabled: true,
                   useShouldOverrideUrlLoading: true,
                   useOnLoadResource: true,
