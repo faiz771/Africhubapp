@@ -50,6 +50,19 @@ class _WebViewExampleState extends State<WebViewExample> {
   PullToRefreshController? pullToRefreshController;
 
   bool pullToRefreshEnabled = true;
+  bool _isInternetError(int code) {
+    // Add other relevant error codes here
+    return code == -2 || // ERR_FAILED
+        code == -6 || // ERR_NAME_NOT_RESOLVED
+        code == -106 || // ERR_INTERNET_DISCONNECTED
+        code == -105 || // ERR_NAME_NOT_RESOLVED (alternate)
+        code == -118; // ERR_CONNECTION_TIMED_OUT
+  }
+
+  bool _isHttpInternetError(int statusCode) {
+    // HTTP status codes that might indicate no internet
+    return statusCode >= 500 && statusCode < 600;
+  }
 
   @override
   void initState() {
@@ -175,10 +188,14 @@ class _WebViewExampleState extends State<WebViewExample> {
                   }
                 },
                 onLoadError: (controller, url, code, message) {
-                  showNoConnectionDialog(context);
+                  if (_isInternetError(code)) {
+                    showNoConnectionDialog(context);
+                  }
                 },
                 onLoadHttpError: (controller, url, statusCode, description) {
-                  showNoConnectionDialog(context);
+                  if (_isHttpInternetError(statusCode)) {
+                    showNoConnectionDialog(context);
+                  }
                 },
               ),
             ),
@@ -186,220 +203,3 @@ class _WebViewExampleState extends State<WebViewExample> {
     );
   }
 }
-
-// class WebViewExample extends StatefulWidget {
-//   const WebViewExample({super.key});
-
-//   @override
-//   _WebViewExampleState createState() => _WebViewExampleState();
-// }
-
-// class _WebViewExampleState extends State<WebViewExample> {
-//   // late WebViewController controller;
-
-//   @override
-//   void initState() {
-//     super.initState();
-
-//     // controller = WebViewController()
-//     //   ..setJavaScriptMode(JavaScriptMode.unrestricted)
-//     //   ..loadRequest(Uri.parse('https://afriqmarket.azsolutionspk.com'))
-//     //   ..enableZoom(false)
-//     //   ..setNavigationDelegate(
-//     //     NavigationDelegate(
-//     //       onProgress: (int progress) {
-//     //         print('Current Progress $progress');
-//     //         // Update loading bar.
-//     //       },
-//     //       onPageStarted: (String url) {},
-//     //       onPageFinished: (String url) {},
-//     //       onHttpError: (HttpResponseError error) {},
-//     //       onWebResourceError: (WebResourceError error) {
-//     //         if (error.errorType == WebResourceErrorType.hostLookup) {
-//     //           showNoConnectionDialog(context);
-//     //         }
-//     //       },
-//     //     ),
-//     //   );
-//   }
-
-//   void _onRefresh() async {
-//     // Call the refresh function here
-//     // For example:
-//     // Call _refreshController.refreshCompleted() when refresh is done
-//     _refreshController.refreshCompleted();
-//   }
-
-//   final RefreshController _refreshController =
-//       RefreshController(initialRefresh: false);
-
-
-//   InAppWebViewController? webViewController;
-//   final GlobalKey webViewKey = GlobalKey();
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: WillPopScope(
-//           onWillPop: () async {
-//             // if (controller != null && await controller!.canGoBack()) {
-//             //   await controller!.goBack();
-//             //   return false; // Prevent default back button behavior
-//             // }
-//             return false; // Allow default back button behavior (exit app)
-//           },
-//           child: Scaffold(
-//             // appBar: AppBar(
-//             //   backgroundColor: Color.fromRGBO(0, 204, 255, 1),
-//             //   centerTitle: true,
-//             //   title: const Text('AfriqMarketHub'),
-//             // ),
-//             body: Column(children: <Widget>[
-//               Expanded(
-//                   child: InAppWebView(
-//                 key: webViewKey,
-//                 initialUrlRequest: URLRequest(
-//                     url: WebUri('https://afriqmarket.azsolutionspk.com')),
-//                 initialSettings: InAppWebViewSettings(
-//                     transparentBackground: false,
-//                     safeBrowsingEnabled: true,
-//                     isFraudulentWebsiteWarningEnabled: true),
-//                 onWebViewCreated: (controller) async {
-//                   webViewController = controller;
-//                   // if (!kIsWeb &&
-//                   //     defaultTargetPlatform == TargetPlatform.android) {
-//                   //   await controller.startSafeBrowsing();
-//                   // }
-//                 },
-//                 onLoadStart: (controller, url) {
-//                   if (url != null) {
-//                     // setState(() {
-//                     //   this.url = url.toString();
-//                     //   isSecure = urlIsSecure(url);
-//                     // });
-//                   }
-//                 },
-//                 onLoadStop: (controller, url) async {
-//                   if (url != null) {
-//                     // setState(() {
-//                     //   this.url = url.toString();
-//                     // });
-//                   }
-
-//                   // final sslCertificate = await controller.getCertificate();
-//                   // setState(() {
-//                   //   isSecure = sslCertificate != null ||
-//                   //       (url != null && urlIsSecure(url));
-//                   // });
-//                 },
-//                 onUpdateVisitedHistory: (controller, url, isReload) {
-//                   // if (url != null) {
-//                   //   setState(() {
-//                   //     this.url = url.toString();
-//                   //   });
-//                   // }
-//                 },
-//                 onTitleChanged: (controller, title) {
-//                   // if (title != null) {
-//                   //   setState(() {
-//                   //     this.title = title;
-//                   //   });
-//                   // }
-//                 },
-//                 onProgressChanged: (controller, progress) {
-//                   // setState(() {
-//                   //   this.progress = progress / 100;
-//                   // });
-//                 },
-//                 shouldOverrideUrlLoading: (controller, navigationAction) async {
-//                   final url = navigationAction.request.url;
-//                   if (navigationAction.isForMainFrame &&
-//                       url != null &&
-//                       ![
-//                         'http',
-//                         'https',
-//                         'file',
-//                         'chrome',
-//                         'data',
-//                         'javascript',
-//                         'about'
-//                       ].contains(url.scheme)) {
-//                     // if (await canLaunchUrl(url)) {
-//                     //   launchUrl(url);
-//                     //   return NavigationActionPolicy.CANCEL;
-//                     // }
-//                   }
-//                   return NavigationActionPolicy.ALLOW;
-//                 },
-//               )),
-//             ]),
-//             bottomNavigationBar: BottomAppBar(
-//               child: Row(
-//                 mainAxisSize: MainAxisSize.max,
-//                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                 children: <Widget>[
-//                   IconButton(
-//                     icon: const Icon(Icons.share),
-//                     onPressed: () {
-//                       // Share.share(url, subject: title);
-//                     },
-//                   ),
-//                   IconButton(
-//                     icon: const Icon(Icons.refresh),
-//                     onPressed: () {
-//                       // webViewController?.reload();
-//                     },
-//                   ),
-//                   PopupMenuButton<int>(
-//                     // onSelected: (item) => handleClick(item),
-//                     itemBuilder: (context) => [
-//                       PopupMenuItem<int>(
-//                           enabled: false,
-//                           child: Column(
-//                             children: [
-//                               Row(
-//                                 children: const [
-//                                   FlutterLogo(),
-//                                   Expanded(
-//                                       child: Center(
-//                                     child: Text(
-//                                       'Other options',
-//                                       style: TextStyle(color: Colors.black),
-//                                     ),
-//                                   )),
-//                                 ],
-//                               ),
-//                               const Divider()
-//                             ],
-//                           )),
-//                       PopupMenuItem<int>(
-//                           value: 0,
-//                           child: Row(
-//                             children: const [
-//                               Icon(Icons.open_in_browser),
-//                               SizedBox(
-//                                 width: 5,
-//                               ),
-//                               Text('Open in the Browser')
-//                             ],
-//                           )),
-//                       PopupMenuItem<int>(
-//                           value: 1,
-//                           child: Row(
-//                             children: const [
-//                               Icon(Icons.clear_all),
-//                               SizedBox(
-//                                 width: 5,
-//                               ),
-//                               Text('Clear your browsing data')
-//                             ],
-//                           )),
-//                     ],
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           )),
-//       // floatingActionButton:  WebResourceErrorType.hostLookup?,
-//     );
-//   }
-// }
