@@ -146,6 +146,7 @@ class _WebViewExampleState extends State<WebViewExample> {
               child: InAppWebView(
                 initialOptions: InAppWebViewGroupOptions(
                     crossPlatform: InAppWebViewOptions(
+                  javaScriptCanOpenWindowsAutomatically: true,
                   transparentBackground: true,
                   horizontalScrollBarEnabled: false,
                   verticalScrollBarEnabled: false,
@@ -155,6 +156,7 @@ class _WebViewExampleState extends State<WebViewExample> {
                   useShouldOverrideUrlLoading: true,
                   useOnLoadResource: true,
                   cacheEnabled: true,
+                  allowFileAccessFromFileURLs: false,
                 )),
                 key: webViewKey,
                 initialUrlRequest: URLRequest(
