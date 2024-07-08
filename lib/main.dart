@@ -110,30 +110,62 @@ class _WebViewExampleState extends State<WebViewExample> {
             ),
           ),
           actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Appcolors.bluecolor, // Text Color
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24.0),
-                ),
-              ),
-              onPressed: () {
-                webViewController!.reload();
-                Navigator.of(context).pop(); // Close the dialog and retry
-              },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-                child: Text(
-                  'Retry',
-                  style: TextStyle(
-                    fontSize: 18,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Appcolors.bluecolor, // Text Color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24.0),
+                    ),
+                  ),
+                  onPressed: () {
+                    webViewController!.goBack();
+                    Navigator.of(context).pop(); // Close the dialog and retry
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
+                    child: Text(
+                      'Go Back',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Appcolors.bluecolor, // Text Color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24.0),
+                    ),
+                  ),
+                  onPressed: () {
+                    webViewController!.reload();
+                    Navigator.of(context).pop(); // Close the dialog and retry
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(1.0),
+                      child: Text(
+                        'Retry',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
           ],
         );
       },
